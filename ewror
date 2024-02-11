@@ -1,0 +1,105 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ */
+
+package hdhashdjash.buttoncolorchangeexample;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import static java.nio.file.StandardOpenOption.CREATE;
+import java.util.Scanner;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import javax.swing.*;
+/**
+ *
+ * @author USER
+ */
+public class ButtonColorChangeExample {
+
+     public static void main(String[] args) {
+        JFrame frame = new JFrame("Button Color Toggle Example");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(700, 500);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(2, 5)); // 2 rows, 5 columns for 10 buttons
+            for(int a=1;a<11;a++){
+                int buttonIndex = a - 1; 
+                 JButton button = new JButton("SLOT:"+a+"Available");
+            button.setPreferredSize(new Dimension(100, 50)); // Setting button size
+            button.setBackground(Color.GREEN); // Setting initial color
+
+            // Add action listener to the button
+            button.addActionListener(new ActionListener() {
+                
+                
+                @Override
+                
+                public void actionPerformed(ActionEvent e) {
+                    int b=1,c=0;
+                    String []car_plate= new String[10];
+                    // Check current color of the button
+                    if (button.getBackground().equals(Color.RED)) {
+                        // If red, change back to green
+                        button.setBackground(Color.GREEN);
+                        button.setText("SLOT:"+b+"Available");
+                         car_plate[buttonIndex] = null;
+                        
+                       
+                    } else {
+                        // Otherwise, change to red
+                        button.setBackground(Color.RED);
+                        
+                       car_plate[c] = JOptionPane.showInputDialog("Enter carplate");
+                       button.setText("Slot:"+b+"Occupied by:"+car_plate[c]);
+                       
+                       c++;
+                       
+                       //start
+                      
+                       
+        
+        
+        Path files = Paths.get("E:Carplates.txt");
+        OutputStream carplate_rec=null;
+        try{
+            carplate_rec= new
+              BufferedOutputStream(Files.newOutputStream(files, CREATE));
+            for(String strn : car_plate){
+               if(strn !=null){
+                    byte [] newdata=(strn+"\n").getBytes();
+                carplate_rec.write(newdata);
+               }
+            }
+            carplate_rec.flush();
+            carplate_rec.close();
+        }
+        catch(IOException ex){
+            System.out.println("Message:" +ex);
+        }
+                       //end
+                    }
+                }
+            });
+
+            panel.add(button);
+            }
+           
+        
+
+        frame.add(panel);
+        frame.setVisible(true);
+    }
+}
